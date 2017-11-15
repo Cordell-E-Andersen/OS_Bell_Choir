@@ -1,108 +1,105 @@
 /**
  * 
- * @author Cordell
+ * @author Nate Williams
+ * a class that simulates a musical note
  *
  */
 class BellNote {
-    final Note note;
-    final NoteLength length;
+	final Note note;
+	final NoteLength length;
 
-    /**
-     * 
-     * @param note
-     * @param length
-     */
-    BellNote(Note note, NoteLength length) {
-        this.note = note;
-        this.length = length;
-    }
+	/**
+	 * 
+	 * creates a bell note
+	 * 
+	 * @param note
+	 * @param length
+	 */
+	BellNote(Note note, NoteLength length) {
+		this.note = note;
+		this.length = length;
+	}
 }
 
 /**
  * 
- * @author Cordell
+ * @author Nate Williams
+ * a series of note lengths that can be assigned to a bell note
  *
  */
 enum NoteLength {
-	NONEXISTANT(0.0f),
-    WHOLE(1.0f),
-    HALF(0.5f),
-    QUARTER(0.25f),
-    EIGTH(0.125f);
+	NONEXISTANT(0.0f), WHOLE(1.0f), HALF(0.5f), QUARTER(0.25f), EIGTH(0.125f);
 
-    private final int timeMs;
+	private final int timeMs;
 
-    /**
-     * 
-     * @param length
-     */
-    private NoteLength(float length) {
-        timeMs = (int)(length * Note.MEASURE_LENGTH_SEC * 1000);
-    }
+	/**
+	 * 
+	 * creates a NoteLength
+	 * 
+	 * @param length
+	 */
+	private NoteLength(float length) {
+		timeMs = (int) (length * Note.MEASURE_LENGTH_SEC * 1000);
+	}
 
-    public int timeMs() {
-        return timeMs;
-    }
+	/**
+	 * 
+	 * returns the note length in milliseconds
+	 * 
+	 * @return int
+	 */
+	public int timeMs() {
+		return timeMs;
+	}
 }
 
 /**
  * 
- * @author Cordell
+ * @author Nate Williams
+ * a series of possible notes that can be assigned to a bell note
  *
  */
 enum Note {
-    // REST Must be the first 'Note'
-    REST,
-    A4,
-    A4S,
-    B4,
-    C4,
-    C4S,
-    D4,
-    D4S,
-    E4,
-    F4,
-    F4S,
-    G4,
-    G4S,
-    A5,
-    INVALID;
+	// REST Must be the first 'Note'
+	REST, A4, A4S, B4, C4, C4S, D4, D4S, E4, F4, F4S, G4, G4S, A5, A5S, B5, C5, C5S, D5, D5S, E5, F5, F5S, G5, G5S, A6;
 
-    public static final int SAMPLE_RATE = 48 * 1024; // ~48KHz
-    public static final int MEASURE_LENGTH_SEC = 1;
+	public static final int SAMPLE_RATE = 48 * 1024; // ~48KHz
+	public static final int MEASURE_LENGTH_SEC = 1;
 
-    // Circumference of a circle divided by # of samples
-    private static final double step_alpha = (2.0d * Math.PI) / SAMPLE_RATE;
+	// Circumference of a circle divided by # of samples
+	private static final double step_alpha = (2.0d * Math.PI) / SAMPLE_RATE;
 
-    private final double FREQUENCY_A_HZ = 440.0d;
-    private final double MAX_VOLUME = 127.0d;
+	private final double FREQUENCY_A_HZ = 440.0d;
+	private final double MAX_VOLUME = 127.0d;
 
-    private final byte[] sinSample = new byte[MEASURE_LENGTH_SEC * SAMPLE_RATE];
+	private final byte[] sinSample = new byte[MEASURE_LENGTH_SEC * SAMPLE_RATE];
 
-    /**
-     * 
-     */
-    private Note() {
-        int n = this.ordinal();
-        if (n > 0) {
-            // Calculate the frequency!
-            final double halfStepUpFromA = n - 1;
-            final double exp = halfStepUpFromA / 12.0d;
-            final double freq = FREQUENCY_A_HZ * Math.pow(2.0d, exp);
+	/**
+	 * creates a note
+	 */
+	private Note() {
+		int n = this.ordinal();
+		if (n > 0) {
+			// Calculate the frequency!
+			final double halfStepUpFromA = n - 1;
+			final double exp = halfStepUpFromA / 12.0d;
+			final double freq = FREQUENCY_A_HZ * Math.pow(2.0d, exp);
 
-            // Create sinusoidal data sample for the desired frequency
-            final double sinStep = freq * step_alpha;
-            for (int i = 0; i < sinSample.length; i++) {
-                sinSample[i] = (byte)(Math.sin(i * sinStep) * MAX_VOLUME);
-            }
-        }
-    }
+			// Create sinusoidal data sample for the desired frequency
+			final double sinStep = freq * step_alpha;
+			for (int i = 0; i < sinSample.length; i++) {
+				sinSample[i] = (byte) (Math.sin(i * sinStep) * MAX_VOLUME);
+			}
+		}
+	}
 
-    /**
-     * 
-     * @return
-     */
-    public byte[] sample() {
-        return sinSample;
-    }
+	/**
+	 * 
+	 * I genuinely have no idea
+	 * 
+	 * @return byte[]
+	 */
+	public byte[] sample() {
+		return sinSample;
+	}
 }
