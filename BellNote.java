@@ -95,7 +95,7 @@ enum Note {
 
 	/**
 	 * 
-	 * I genuinely have no idea
+	 * returns the byte array for playing the note 
 	 * 
 	 * @return byte[]
 	 */

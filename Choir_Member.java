@@ -107,6 +107,7 @@ public class Choir_Member implements Runnable {
 		songContinues = true;
 		synchronized (this) {
 			do {
+				//wait while not the choir member's turn
 				while (!myTurn && songContinues) {
 					try {
 						wait();

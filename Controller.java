@@ -36,7 +36,6 @@ public class Controller {
 		// validate song from the file
 		final SourceDataLine mainSourceDataLine = compileSong(af, args[0]);
 
-		// begin the song!
 		mainSourceDataLine.open();
 		mainSourceDataLine.start();
 		if (validSong) {
@@ -55,6 +54,8 @@ public class Controller {
 				choir.get(i).waitToStop();
 			}
 
+			//data checking
+			/*
 			for (int i = 0; i < choir.size(); i++) {
 				System.out.println("We recruited Choir Member " + choir.get(i).getId());
 				System.out.println("Choir Member " + choir.get(i).getId() + " plays "
@@ -63,17 +64,17 @@ public class Controller {
 			System.out.println("Sequence of Play:");
 			for (int i = 0; i < sequenceOfPlay.size(); i++) {
 				System.out.println(choir.get(sequenceOfPlay.get(i)).getId());
-			}
+			}*/
 		}
 		mainSourceDataLine.drain();
 	}
 
 	/**
 	 * takes the audio format and file name to create a series of Choir_Members with
-	 * the notes listed in the file
+	 * the notes listed in the file. Syntax for file reading taken from the loadMoves method in TicTacToeV2
 	 * 
-	 * @param AudioFormat
-	 *            audioFormat, String fileName
+	 * @param AudioFormat, String
+	 *            
 	 * @return SourceDataLine
 	 */
 	public static SourceDataLine compileSong(AudioFormat audioFormat, String fileName) {
@@ -143,7 +144,7 @@ public class Controller {
 	 * validation
 	 * 
 	 * @param String
-	 *            line
+	 *            
 	 * @return BellNote
 	 */
 	private static BellNote parseNote(String line) {
@@ -159,10 +160,10 @@ public class Controller {
 	}
 
 	/**
-	 * validates potential note
+	 * validates potential note for the bell note
 	 * 
 	 * @param String
-	 *            potentialNote
+	 *            
 	 * @return Note
 	 */
 	private static Note newNote(String potentialNote) {
@@ -176,21 +177,24 @@ public class Controller {
 	}
 
 	/**
-	 * validates potential note length
+	 * validates potential note length for the bell note
 	 * 
 	 * @param String
-	 *            potentialNoteLength
+	 *            
 	 * @return NoteLength
 	 */
 	private static NoteLength newNoteLength(String potentialNoteLength) {
 		int length = -1;
 		NoteLength newNoteLength = null;
+		
+		//checks to see if the potential note length is an int
 		try {
 			length = Integer.parseInt(potentialNoteLength);
 		} catch (NumberFormatException nfe) {
 			System.err.println("Error: Cannot parse '" + potentialNoteLength + "' to an int");
 		}
 
+		//checks for if the potential note length is a valid NoteLength
 		switch (length) {
 		case 1:
 			newNoteLength = NoteLength.WHOLE;
