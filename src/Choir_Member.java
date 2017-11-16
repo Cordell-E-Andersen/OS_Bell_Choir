@@ -40,7 +40,7 @@ public class Choir_Member implements Runnable {
 		id = choirBell.name() + "_Bell_Toller";
 		choirThread = new Thread(this, id);
 		durationSequence = new ArrayList<NoteLength>();
-		choirThread.start();
+		//choirThread.start();
 	}
 
 	/**
@@ -52,6 +52,13 @@ public class Choir_Member implements Runnable {
 		durationSequence.add(tollLength);
 	}
 
+	/**
+	 * starts the choir member
+	 */
+	 public void begin(){
+		 choirThread.start();
+	 }
+	
 	/**
 	 * stops the choir member playing when the song ends
 	 * 

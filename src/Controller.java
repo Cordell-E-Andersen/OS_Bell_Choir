@@ -41,6 +41,10 @@ public class Controller {
 		if (validSong) {
 			//start playing
 			for (int i = 0; i < sequenceOfPlay.size(); i++) {
+				choir.get(sequenceOfPlay.get(i)).begin();
+			}
+			
+			for (int i = 0; i < sequenceOfPlay.size(); i++) {
 				choir.get(sequenceOfPlay.get(i)).giveStage();
 			}
 
