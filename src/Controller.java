@@ -131,6 +131,7 @@ public class Controller {
 						}
 					}
 				} catch (IOException ignored) {
+					System.err.println("File exeption occurred: "+ignored);
 				}
 			} else {
 				validSong = false;
@@ -138,6 +139,7 @@ public class Controller {
 			}
 			return sourceDataLine;
 		} catch (LineUnavailableException lue) {
+			System.out.println("Line unavailable exception occurred.");
 			return null;
 		}
 
